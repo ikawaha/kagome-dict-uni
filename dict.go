@@ -7,11 +7,9 @@ import (
 	"sort"
 	"sync"
 
-	data "github.com/ikawaha/kagome-dict-uni/data"
+	data "github.com/ikawaha/kagome-dict-uni/internal/data"
 	"github.com/ikawaha/kagome/v2/dict"
 )
-
-const dictPath = "dict"
 
 type systemDict struct {
 	once sync.Once
@@ -19,41 +17,43 @@ type systemDict struct {
 }
 
 var (
-	full    systemDict
-	shurink systemDict
+	full   systemDict
+	shrink systemDict
 )
 
-func New() *dict.Dict {
+// Dict returns a dictionary.
+func Dict() *dict.Dict {
 	full.once.Do(func() {
-		full.dict = loadInternalDict(dictPath, true)
-		shurink.once.Do(func() {
-			shurink.dict = full.dict
+		full.dict = loadDict(true)
+		shrink.once.Do(func() {
+			shrink.dict = full.dict
 		})
 	})
 	return full.dict
 }
 
-func NewShrink() *dict.Dict {
-	shurink.once.Do(func() {
-		shurink.dict = loadInternalDict(dictPath, false)
+// DictShrink returns a dictionary without content part.
+// note. If an unshrinked dictionary already exists, this function returns it.
+func DictShrink() *dict.Dict {
+	shrink.once.Do(func() {
+		shrink.dict = loadDict(false)
 	})
-	return shurink.dict
+	return shrink.dict
 }
 
-func loadInternalDict(path string, full bool) (d *dict.Dict) {
-	buf := make([]byte, 0, 36*1024*1024) // 36MB
-	defer func() { buf = nil }()
-
+func loadDict(full bool) (d *dict.Dict) {
 	pieces := data.AssetNames()
 	sort.Strings(pieces)
+
+	rs := make([]SizeReaderAt, 0, len(pieces))
 	for _, v := range pieces {
 		b, err := data.Asset(v)
 		if err != nil {
 			panic(fmt.Errorf("assert error, %q, %v", v, err))
 		}
-		buf = append(buf, b...)
+		rs = append(rs, bytes.NewReader(b))
 	}
-	r := bytes.NewReader(buf)
+	r := NewMultiSizeReaderAt(rs...)
 	zr, err := zip.NewReader(r, r.Size())
 	if err != nil {
 		panic(err)

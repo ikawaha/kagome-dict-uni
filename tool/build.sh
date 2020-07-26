@@ -6,7 +6,7 @@ intermidiate_prefix="unidict."
 testdata_dir="../testdata"
 dict="${testdata_dir}/uni.dict"
 dst_pkg=data
-dst_dir="../${dst_pkg}"
+dst_dir="../internal/${dst_pkg}"
 
 rm -f ${dst_dir}/*.go ${dict}
 mkdir -p ${testdata_dir}
