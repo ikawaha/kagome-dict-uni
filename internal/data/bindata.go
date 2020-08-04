@@ -85,6 +85,9 @@
 // dict/unidict.de
 // dict/unidict.df
 // dict/unidict.dg
+// dict/unidict.dh
+// dict/unidict.di
+// dict/unidict.dj
 // DO NOT EDIT!
 
 package data
@@ -265,6 +268,9 @@ var _bindata = map[string]func() (*asset, error){
 	"dict/unidict.de": dictUnidictDe,
 	"dict/unidict.df": dictUnidictDf,
 	"dict/unidict.dg": dictUnidictDg,
+	"dict/unidict.dh": dictUnidictDh,
+	"dict/unidict.di": dictUnidictDi,
+	"dict/unidict.dj": dictUnidictDj,
 }
 
 // AssetDir returns the file names below a certain
@@ -393,6 +399,9 @@ var _bintree = &bintree{nil, map[string]*bintree{
 		"unidict.de": &bintree{dictUnidictDe, map[string]*bintree{}},
 		"unidict.df": &bintree{dictUnidictDf, map[string]*bintree{}},
 		"unidict.dg": &bintree{dictUnidictDg, map[string]*bintree{}},
+		"unidict.dh": &bintree{dictUnidictDh, map[string]*bintree{}},
+		"unidict.di": &bintree{dictUnidictDi, map[string]*bintree{}},
+		"unidict.dj": &bintree{dictUnidictDj, map[string]*bintree{}},
 	}},
 }}
 

@@ -11,6 +11,30 @@ import (
 	"github.com/ikawaha/kagome/v2/dict"
 )
 
+type FeatureIndex int
+
+const (
+	// Features are information given to a word, such as follows:
+	// 公園	名詞,普通名詞,一般,*,*,*,コウエン,公園,公園,コーエン,公園,コーエン,漢,*,*,*,*
+	// に	助詞,格助詞,*,*,*,*,ニ,に,に,ニ,に,ニ,和,*,*,*,*
+	// 行っ	動詞,非自立可能,*,*,五段-カ行,連用形-促音便,イク,行く,行っ,イッ,行く,イク,和,*,*,*,*
+	// た	助動詞,*,*,*,助動詞-タ,終止形-一般,タ,た,た,タ,た,タ,和,*,*,*,*
+	// EOS
+	// POSHierarchy represents part-of-speech hierarchy
+	// e.g. Columns 動詞,非自立可能,*,* are POSs which hierarchy depth is 4.
+	POSHierarchy = 4
+	// InflectionalType represents 活用型 (e.g. 五段-カ行)
+	InflectionalType FeatureIndex = 4
+	// InflectionalForm represents 活用形 (e.g. 連用形-促音便)
+	InflectionalForm = 5
+	// Reading represents 読み (e.g. コウエン)
+	Reading = 6
+	// BaseForm represents 基本形 (e.g. 行く)
+	BaseForm = 7
+	// Pronunciation represents 発音 (e.g. コーエン)
+	Pronunciation = 11
+)
+
 type systemDict struct {
 	once sync.Once
 	dict *dict.Dict

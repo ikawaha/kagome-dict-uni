@@ -8,6 +8,7 @@ import (
 	"os"
 	"strings"
 
+	"github.com/ikawaha/kagome/v2/dict"
 	"github.com/ikawaha/kagome/v2/dict/builder"
 	"golang.org/x/text/encoding"
 )
@@ -27,11 +28,17 @@ var (
 		RightIDIndex:            2,
 		WeightIndex:             3,
 		POSStartIndex:           4,
-		OtherContentsStartIndex: 10,
+		OtherContentsStartIndex: 8,
 		// extra
-		BaseFormIndex:      11,
-		ReadingIndex:       10,
-		PronunciationIndex: 13,
+		Meta: map[string]int8{
+			dict.POSStartIndex:      0,
+			dict.POSHierarchy:       4,
+			dict.InflectionalType:   4,
+			dict.InflectionalForm:   5,
+			dict.BaseFormIndex:      7,
+			dict.ReadingIndex:       6,
+			dict.PronunciationIndex: 11,
+		},
 	}
 	UnkRecordInfo = builder.UnkRecordInfo{
 		ColSize:                 10,
@@ -40,7 +47,7 @@ var (
 		RightIndex:              2,
 		WeigthIndex:             3,
 		POSStartIndex:           4,
-		OtherContentsStartIndex: 4,
+		OtherContentsStartIndex: 8,
 	}
 	FileEncoding encoding.Encoding = nil // // set nil if utf8 (default)
 )
