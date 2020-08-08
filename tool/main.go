@@ -37,7 +37,7 @@ var (
 			dict.InflectionalForm:   5,
 			dict.BaseFormIndex:      7,
 			dict.ReadingIndex:       6,
-			dict.PronunciationIndex: 11,
+			dict.PronunciationIndex: 9,
 		},
 	}
 	UnkRecordInfo = builder.UnkRecordInfo{

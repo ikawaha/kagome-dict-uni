@@ -23,16 +23,45 @@ const (
 	// POSHierarchy represents part-of-speech hierarchy
 	// e.g. Columns 動詞,非自立可能,*,* are POSs which hierarchy depth is 4.
 	POSHierarchy = 4
-	// InflectionalType represents 活用型 (e.g. 五段-カ行)
+	// CType represents  活用型 (e.g. 五段-カ行).
+	CType = 4
+	// CForm represents 活用形 (e.g. 連用形-促音便).
+	CForm = 5
+	// LForm represents 読み (e.g. コウエン).
+	LForm = 6
+	// Lemma represents 語彙素 (e.g. 公園, 行く).
+	Lemma = 7
+	// Orth represents 書字形出現形.
+	Orth = 8
+	// Pron represents 発音形出現形.
+	Pron = 9
+	// OrthBase represents 書字形基本型.
+	OrthBase = 10
+	// PronBase represents 発音形基本型.
+	PronBase = 11
+	// Goshu represents 語種.
+	Goshu = 12
+	// IType represents 語頭変化型.
+	IType = 13
+	// IForm represents 語頭変化形.
+	IForm = 14
+	// FType represents 語末変化型.
+	FType = 15
+	// FForm represents 語末変化形.
+	FForm = 16
+
+	// Aliases
+	//
+	// InflectionalType represents 活用型 (e.g. 五段-カ行), an alias for CType.
 	InflectionalType FeatureIndex = 4
-	// InflectionalForm represents 活用形 (e.g. 連用形-促音便)
+	// InflectionalForm represents 活用形 (e.g. 連用形-促音便), an alias for CForm.
 	InflectionalForm = 5
-	// Reading represents 読み (e.g. コウエン)
-	Reading = 6
-	// BaseForm represents 基本形 (e.g. 行く)
+	// BaseForm represents 基本形 (e.g. 行く), an alias for Lemma.
 	BaseForm = 7
-	// Pronunciation represents 発音 (e.g. コーエン)
-	Pronunciation = 11
+	// Reading represents 読み (e.g. コウエン), an alias for LForm.
+	Reading = 6
+	// Pronunciation represents 発音 (e.g. コーエン), an alias for Pron.
+	Pronunciation = 9
 )
 
 type systemDict struct {
