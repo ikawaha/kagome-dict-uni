@@ -81,13 +81,13 @@ func Test_ContentsMeta(t *testing.T) {
 	if want, got := 5, d.ContentsMeta[dict.InflectionalForm]; want != int(got) {
 		t.Errorf("base form index: want %d, got %d", want, got)
 	}
-	if want, got := 6, d.ContentsMeta[dict.ReadingIndex]; want != int(got) {
+	if want, got := 0, d.ContentsMeta[dict.ReadingIndex]; want != int(got) { // undefined
 		t.Errorf("reading index: want %d, got %d", want, got)
 	}
 	if want, got := 7, d.ContentsMeta[dict.BaseFormIndex]; want != int(got) {
 		t.Errorf("base form index: want %d, got %d", want, got)
 	}
-	if want, got := 11, d.ContentsMeta[dict.PronunciationIndex]; want != int(got) {
+	if want, got := 9, d.ContentsMeta[dict.PronunciationIndex]; want != int(got) {
 		t.Errorf("pronunciation index: want %d, got %d", want, got)
 	}
 }
@@ -172,11 +172,9 @@ func Test_Reading(t *testing.T) {
 	if got, ok := tokens[0].Reading(); ok {
 		t.Errorf("want !ok, got %q", got)
 	}
-	//公園->コウエン
-	if got, ok := tokens[1].Reading(); !ok {
-		t.Error("want ok, but !ok")
-	} else if want := "コウエン"; want != got {
-		t.Fatalf("want %s, got %s", want, got)
+	//公園->コウエン // undefined
+	if got, ok := tokens[1].Reading(); ok {
+		t.Errorf("want !ok, but ok, got %s", got)
 	}
 }
 
@@ -219,5 +217,49 @@ func Test_POS(t *testing.T) {
 	//行く
 	if want, got := []string{"動詞", "非自立可能", "*", "*"}, tokens[3].POS(); !reflect.DeepEqual(want, got) {
 		t.Fatalf("want %+v, got %+v", want, got)
+	}
+}
+
+func Test_FeatureIndex(t *testing.T) {
+	testdata := []struct {
+		index   FeatureIndex
+		feature string
+	}{
+		{index: CType, feature: "下一段-バ行"},
+		{index: CForm, feature: "連用形-一般"},
+		{index: LForm, feature: "タベル"},
+		{index: Lemma, feature: "食べる"},
+		{index: Orth, feature: "食べ"},
+		{index: Pron, feature: "タベ"},
+		{index: OrthBase, feature: "食べる"},
+		{index: PronBase, feature: "タベル"},
+		{index: Goshu, feature: "和"},
+		{index: IType, feature: "*"},
+		{index: IForm, feature: "*"},
+		{index: FType, feature: "*"},
+		{index: FForm, feature: "*"},
+		// aliases
+		{index: InflectionalType, feature: "下一段-バ行"},
+		{index: InflectionalForm, feature: "連用形-一般"},
+		{index: BaseForm, feature: "食べる"},
+		{index: Pronunciation, feature: "タベ"},
+	}
+	tnz, err := tokenizer.New(Dict())
+	if err != nil {
+		t.Fatalf("unexpected error, %v", err)
+	}
+
+	tokens := tnz.Tokenize("寿司を食べたい")
+	if want, got := 6, len(tokens); want != got {
+		t.Fatalf("token length: want %d, got %d", want, got)
+	}
+	//食べ 動詞,一般,*,*,下一段-バ行,連用形-一般,タベル,食べる,食べ,タベ,食べる,タベル,和,*,*,*,*
+	token := tokens[3]
+	for _, v := range testdata {
+		if got, ok := token.FeatureAt(v.index); !ok {
+			t.Errorf("index %v: want ok, but !ok", v.index)
+		} else if want := v.feature; want != got {
+			t.Fatalf("index %v: want %s, got %s", v.index, want, got)
+		}
 	}
 }

@@ -11,7 +11,7 @@ import (
 	"github.com/ikawaha/kagome/v2/dict"
 )
 
-type FeatureIndex int
+type FeatureIndex = int
 
 const (
 	// Features are information given to a word, such as follows:
@@ -58,8 +58,6 @@ const (
 	InflectionalForm = 5
 	// BaseForm represents 基本形 (e.g. 行く), an alias for Lemma.
 	BaseForm = 7
-	// Reading represents 読み (e.g. コウエン), an alias for LForm.
-	Reading = 6
 	// Pronunciation represents 発音 (e.g. コーエン), an alias for Pron.
 	Pronunciation = 9
 )
